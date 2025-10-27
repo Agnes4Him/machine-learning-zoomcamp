@@ -6,7 +6,7 @@ import uvicorn
 
 app = FastAPI(title="lead-conversion-prediction")
 
-with open('pipeline_v1.bin', 'rb') as f_in:
+with open('pipeline_v2.bin', 'rb') as f_in:
     pipeline = pickle.load(f_in)
 
 
@@ -16,7 +16,7 @@ def predict_single(customer):
 
 
 @app.post("/predict")
-def predict(customer):
+def predict(customer: Dict[str, Any]):
     prob = predict_single(customer)
 
     return {

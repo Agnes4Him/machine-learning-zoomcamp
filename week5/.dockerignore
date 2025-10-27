@@ -1,0 +1,50 @@
+# Python build & cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.log
+*.tmp
+
+# Virtual environments
+.venv/
+venv/
+.env/
+env/
+.uv/
+
+# UV cache & build artifacts
+.uv_cache/
+uv_cache/
+uv.lock.bak
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Tests / Local Data
+tests/
+test_results/
+data/
+notebooks/
+*.ipynb_checkpoints/
+
+# Docker / Container files
+Dockerfile
+.dockerignore
+
+# Environment & secrets
+*.env
+.env.local
+.env.dev
+.env.prod
+secrets/
+credentials.json
+
+# Miscellaneous
+pipeline_v1.bin

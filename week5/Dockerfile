@@ -1,16 +1,18 @@
 FROM agrigorev/zoomcamp-model:2025
 
-RUN pip install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-WORKDIR /app
+WORKDIR /code
 
-COPY ["pyproject.toml", "uv.lock", "./"]
+COPY [".python-version", "pyproject.toml", "uv.lock", "./"]
 
-# Install packeages system wide
-RUN uv add ...
+ENV PATH="/code/.venv/bin:$PATH"
 
-COPY ./ ./
+# Install packages system wide
+RUN uv sync --locked
+
+COPY "predict.py" "./"
 
 EXPOSE 9696
 
-CMD [ "uvicorn", "predict:app", "--host 0.0.0.0", "--port 9696", "--reload" ]
+ENTRYPOINT ["uv", "run", "uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "9696", "--reload"]
