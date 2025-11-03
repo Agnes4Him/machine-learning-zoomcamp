@@ -15,4 +15,4 @@ COPY "predict.py" "./"
 
 EXPOSE 9696
 
-ENTRYPOINT ["uv", "run", "uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "9696", "--reload"]
+ENTRYPOINT ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "9696", "--reload"]
