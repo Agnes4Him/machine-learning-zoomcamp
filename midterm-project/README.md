@@ -35,7 +35,7 @@ https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
 
 * Train models using `train` dataset, and validate using `val` dataset
 
-* Train using following - Logistic regression, Decision tree, RandomForestClassifier, XGBoost + with tuning. Choose the best model
+* Train using following - Linear regression, DecisionTreeRegressor, RandomForestRegressor, XGBoost + with tuning. Choose the best model
 
 * Train the best model using full_train dataset
 
