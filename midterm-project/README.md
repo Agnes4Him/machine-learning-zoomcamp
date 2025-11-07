@@ -47,6 +47,6 @@ https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
 
 * Dockerize the web service
 
-* Deploy
+* Deploy with fly.io
 
 * Documentation
