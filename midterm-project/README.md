@@ -37,13 +37,15 @@ https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
 
 * Train using following - Linear regression, DecisionTreeRegressor, RandomForestRegressor, XGBoost + with tuning. Choose the best model
 
-* Train the best model using full_train dataset
+* Train the best model using `full_train` dataset and validate with `test` dataset
 
 * Save model locally using pickle (eventually psuh to GitHub)
 
 * Create web service using FastAPI to serve the model
 
 * Test the web service
+
+* Error handling              *** Stopped here
 
 * Dockerize the web service
 
