@@ -50,3 +50,5 @@ https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
 * Deploy with fly.io
 
 * Documentation
+
+uv run uvicorn predict:app --host 0.0.0.0 --port 8000 --reload
