@@ -1,9 +1,10 @@
 name: CI/CD Docker to App Runner
 
 on:
-  push:
-    branches:
-      - main  # deploy on main branch push
+  #push:
+    #branches:
+      #- main  # deploy on main branch push
+  workflow_dispatch:
 
 jobs:
   deploy:
