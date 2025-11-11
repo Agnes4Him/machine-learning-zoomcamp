@@ -1,15 +1,15 @@
 name: CI/CD Docker to App Runner
 
 on:
-  push:
-    branches:
-      - main  # deploy on main branch push
-    paths:
-      - "midterm-project/**"
-      - "!midterm-project/**/*.ipynb"
-      - "!midterm-project/**/README.md"
-      - ".github/workflows/**" 
-  #workflow_dispatch:
+  #push:
+    #branches:
+      #- main
+    #paths:
+      #- "midterm-project/**"
+      #- "!midterm-project/**/*.ipynb"
+      #- "!midterm-project/**/README.md"
+      #- ".github/workflows/**" 
+  workflow_dispatch:
 
 jobs:
   deploy:
