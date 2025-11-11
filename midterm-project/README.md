@@ -49,7 +49,7 @@ https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
 
 * Dockerize the web service
 
-* Deploy with fly.io
+* Deploy with AWS App Runner
 
 * Documentation
 

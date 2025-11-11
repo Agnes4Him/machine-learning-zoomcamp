@@ -1,4 +1,4 @@
-FROM agrigorev/zoomcamp-model:2025
+FROM python:3.12.3-slim-bookworm
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -10,8 +10,8 @@ ENV PATH="/code/.venv/bin:$PATH"
 
 RUN uv sync --locked
 
-COPY "predict.py" "./"
+COPY ["predict.py", "model.bin", "./"]
 
-EXPOSE 9696
+EXPOSE 8000
 
-ENTRYPOINT ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "9696", "--reload"]
+ENTRYPOINT ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
