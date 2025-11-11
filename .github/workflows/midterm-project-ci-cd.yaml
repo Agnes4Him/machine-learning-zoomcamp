@@ -8,6 +8,7 @@ on:
       - "midterm-project/**"
       - "!midterm-project/**/*.ipynb"
       - "!midterm-project/**/README.md"
+      - ".github/workflows/**" 
   #workflow_dispatch:
 
 jobs:
