@@ -1,14 +1,16 @@
 name: CI/CD Docker to App Runner
 
 on:
-  #push:
-    #branches:
-      #- main  # deploy on main branch push
-  workflow_dispatch:
+  push:
+    branches:
+      - main  # deploy on main branch push
+  #workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: "teen-addiction-prediction:$GITHUB_SHA"
 
     steps:
       - name: Checkout code
@@ -19,7 +21,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Log in to Amazon ECR
         id: login-ecr
@@ -27,12 +29,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t my-app .
+          docker build -t $IMAGE_NAME .
 
       - name: Tag Docker image for ECR
         run: |
-          IMAGE_URI=123456789012.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
-          docker tag my-app:latest $IMAGE_URI
+          IMAGE_URI=${{ vars.ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com/$IMAGE_NAME
+          docker tag $IMAGE_NAME $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
       - name: Push Docker image to ECR
@@ -41,7 +43,7 @@ jobs:
 
       - name: Update App Runner Service
         run: |
-          SERVICE_ARN=arn:aws:apprunner:us-east-1:123456789012:service/my-app/xxxxxxxx
+          SERVICE_ARN=arn:aws:apprunner:${{ vars.AWS_REGION }}:${{ vars.ACCOUNT_ID }}:service/prediction-app/${{ secrets.APP_RUNNER}}
           aws apprunner update-service \
             --service-arn $SERVICE_ARN \
             --source-configuration ImageRepository="{ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}"
