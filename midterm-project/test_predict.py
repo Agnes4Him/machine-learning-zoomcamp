@@ -1,6 +1,7 @@
 import requests
 
-url = 'http://localhost:8000/predict'
+#url = 'http://localhost:8000/predict'
+url = 'https://pnr8h8v3pi.us-east-1.awsapprunner.com/predict'
 
 teen = {
     'Gender': 'Female',

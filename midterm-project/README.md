@@ -54,3 +54,35 @@ https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
 * Documentation
 
 uv run uvicorn predict:app --host 0.0.0.0 --port 8000 --reload
+
+
+## Push Image to ECR
+
+* Run:
+```bash
+aws ecr create-repository \
+    --repository-name teen-addiction-prediction \
+    --region us-east-1
+
+```
+
+* Authenticate:
+```bash
+aws ecr get-login-password --region us-east-1 | \
+docker login --username AWS --password-stdin 759907441676.dkr.ecr.us-east-1.amazonaws.com
+```
+
+* Tag iamge:
+```bash
+docker tag teen-addiction-prediction:1.0.0 759907441676.dkr.ecr.us-east-1.amazonaws.com/teen-addiction-prediction:1.0.0
+```
+
+* Push image:
+```bash
+docker push 759907441676.dkr.ecr.us-east-1.amazonaws.com/teen-addiction-prediction:1.0.0
+```
+
+* Verify:
+```bash
+aws ecr list-images --repository-name my-app --region us-east-1
+```
