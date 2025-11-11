@@ -1,7 +1,7 @@
 import requests
 
 #url = 'http://localhost:8000/predict'
-#url = 'https://pnr8h8v3pi.us-east-1.awsapprunner.com/predict'
+url = 'https://yvjykpbcim.us-east-1.awsapprunner.com/predict'
 
 teen = {
     'Gender': 'Female',
@@ -25,7 +25,7 @@ teen = {
     'Time_on_Gaming': 0.6,
     'Time_on_Education': 0.8,
     'Family_Communication': 6,
-    'Weekend_Usage_Hours': 3.5
+    'Weekend_Usage_Hours': 3.5,
 }
 
 try:
