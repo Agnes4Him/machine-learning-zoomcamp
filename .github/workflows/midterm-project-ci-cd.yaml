@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main  # deploy on main branch push
+    paths:
+      - "midterm-project/**"
+      - "!midterm-project/**/*.ipynb"
+      - "!midterm-project/**/README.md"
   #workflow_dispatch:
 
 jobs:
