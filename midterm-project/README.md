@@ -123,9 +123,9 @@ The notebook used for the training `mid-term.ipynb` was converted to a Python sc
 Uisng `FastAPI`, a web server was created to serve the saved model and make predictions on new data. Input validation and type checking was added.
 for quality control. The setup was tested by sending a `POST` request from `test_predict.py`.
 
-![Start Web Server](midterm-project/images/start-server-local.png)
+![Start Web Server](images/start-server-local.png)
 
-![Server UI Local](midterm-project/images/server-ui-local.png)
+![Server UI Local](images/server-ui-local.png)
 
 ## Deployment
 Docker was used to containerize the application, and tested locally. The image created was pushed to Amazon ECR to be deployed to App Runner subsequently.
