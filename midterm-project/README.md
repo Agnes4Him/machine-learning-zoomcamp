@@ -153,7 +153,7 @@ Docker was used to containerize the application, and tested locally. The image c
 ![ECR Repo](images/ecr-images.png)
 
 ### App Runner Service
-![App Runner Service](images/app-runner-service.pngs)
+![App Runner Service](images/app-runner-service.png)
 
 ### App Runner Overview
 ![App Runner](images/app-runner-overview.png)
