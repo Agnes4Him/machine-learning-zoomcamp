@@ -237,7 +237,18 @@ docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/<IMAGE_NAME>:<TAG>
 
 - Use the URL provided to access the web server UI and test prediction again
 
-- Trigger CI/CD pipeline by making changes to any file in the project dolder except the notebook or README.md file
+- Trigger CI/CD pipeline by making changes to any file in the project dolder except the notebook or README.md file. The following `Secrets and Variables` 
+should be provided to the pipeline:
+
+* ACCOUNT_ID
+
+* AWS_ACCESS_KEY_ID
+
+* AWS_SECRET_ACCESS_KEY
+
+* AWS_REGION
+
+These are details related to the AWS account and region where the ECR and App Runner reside.
 
 # Limitations and next steps 
 The following limitations and next steps to improve on model quality and enhance the performance and reliability of the web server:
