@@ -1,59 +1,122 @@
-## Project idea
-1. Breast lesion severity
-https://archive.ics.uci.edu/dataset/161/mammographic+mass
+# INTRODUCTION
+This is a midterm project for the `Machine Learning Zoomcamp - 2025` to demostrate my understanding being able to:
 
-2. Heart attack survival
-https://archive.ics.uci.edu/dataset/38/echocardiogram
+- Ientify a problem
 
-3. Medical Insurance cost
-https://www.kaggle.com/datasets/mohankrishnathalla/medical-insurance-cost-prediction
+- Describe the problem
 
-https://www.kaggle.com/datasets/saadaliyaseen/decoding-medical-costs-analyzing-insurance-data
+- Determine if the problem can be solved using rule-base approach or Machine Learning
 
-4. Fraud detection
-https://www.kaggle.com/datasets/eshummalik/securepay-credit-card-fraud-detection-data
+- Train models if using machine learning, and determine the best model following evaluation
 
-https://www.kaggle.com/datasets/darshandalvi12/fraud-detection-in-financial-transactions
+- Use the model
 
-5. Hotel reservation cancellation
-https://www.kaggle.com/datasets/ahsan81/hotel-reservations-classification-dataset
+# PROBLEM STATEMENT
+### Title
+Predicting Teens Smartphone Addiction Levels Using Behavioral, Lifestyle, and Mental Health Indicators
 
-6. Teens Phone Usage and Addiction
-https://www.kaggle.com/datasets/sumedh1507/teen-phone-addiction
+### Question
+Can we predict a teen’s smartphone addiction level based on their daily phone use, demographics, sleep habits, mental health indicators, parental influence, and lifestyle factors?
+
+### Problem Description
+Smartphone use among teenagers has become nearly universal, offering educational and social benefits—but also potential risks related to addiction, sleep deprivation, and mental health issues such as self-esteem, depression, anxiety, social isolation, and so on. Excessive or uncontrolled smartphone use can negatively impact academic performance, relationships, and psychological well-being.
+
+The goal of this project is to develop a predictive model that estimates the `Addiction Level` of teenagers using measurable behavioral, psychological, and lifestyle features such as:
+
+- Demographics such as age and gender
+
+- Daily usage hours (how long they use their phone each day)
+
+- Usage purpose
+
+- Sleep hours
+
+- Time spent on social media / gaming / education
+
+- Social interactions
+
+- Academic performance
+
+- Anxiety and Depression Levels
+
+- Self-esteem
+
+- Parental control
+
+- Phone checks per day
+
+- Number of Apps used
+
+- Weekend usage
+
+- Screen time before bed
+
+By learning patterns in this data, the model can predict which teens are at higher risk of developing smartphone addiction and help inform preventive interventions, counseling programs, and awareness campaigns.
+
+### Type of Problem
+This is a `supervised regression` problem, since the target variable Addiction_Level is numeric (e.g., on a scale of 0–10).
+
+Alternatively, it could be converted into a classification problem (e.g., Low, Moderate, High addiction risk).
+
+### Target Variable
+Addiction_Level
+
+### How the Model Addresses the Problem
+
+The model’s predictions could be used to:
+
+* Detect early signs of smartphone addiction among teens.
+
+* Personalize interventions: Schools or counselors can focus efforts on high-risk individuals.
+
+* Inform policy: Evidence-based insights can guide screen time recommendations or parental control app designs.
+
+* Educate teens and parents: Help them understand which behaviors (e.g., frequent night-time phone use) increase risk.
+
+This predictive model serves as a decision-support tool, not a replacement for clinical judgment. It quantifies risk and helps prioritize attention toward teens who need support the most.
+
+# IMPLEMENTATION STEPS
+### Data Sourcing
+The dataset used is the `teen_phone_addiction_dataset` found on Kaggle. This dataset was downloaded and slightly modified. The modified
+version of the datase in CSV format used in this project can be found at [teen_phone_addiction_dataset](https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/teen_phone_addiction_dataset2.csv)
 
 
-## Steps
-* Download data
 
-* Explore data
 
-* Split dataset - train, val and test
+# Outline
+* Introduction
 
-* Extract target variable
+* Problem statement
 
-* Delete target from dataset
+* Problem description
 
-* Train models using `train` dataset, and validate using `val` dataset
+* Steps in execution
+- Data source and download
+- EDA
+- Feature engineering
+- Model training using different algorithms and evaluation. RMSE
+- Full training
+- Save model locally
+- Convert notebook to script(`train.py`) and clean up
+- Create a web server with FastAPI to run predictions (`predict.py`)
+- Test API using `test_predict.py`
+- Dockerize web server and push to ECR - show images of docker commands and ECR repo
+- Deploy to App Runner - show images to confirm cloud deployment
+- CI/CD pipeline for automatic update to web server
 
-* Train using following - Linear regression, DecisionTreeRegressor, RandomForestRegressor, XGBoost + with tuning. Choose the best model
+* How to reproduce/replicate
+- Explain directory structure
+- How to run web server locally and test prediction
+- How to build and run docker image locally and test prediction
+- How to push docker image to ECR
+- How to deploy the image to App Runner and test prediction
+- Using CI/CD pipeline to update the deployment
 
-* Train the best model using `full_train` dataset and validate with `test` dataset
-
-* Save model locally using pickle (eventually psuh to GitHub)
-
-* Create web service using FastAPI to serve the model
-
-* Test the web service
-
-* Error handling              *** Stopped here
-
-* Dockerize the web service
-
-* Deploy with AWS App Runner
-
-* Documentation
-
-uv run uvicorn predict:app --host 0.0.0.0 --port 8000 --reload
+* Limitations and next steps 
+- Experiment tracking
+- Hyperparameter tuning
+- Training pipeline
+- Use of model registry
 
 
 ## Push Image to ECR
