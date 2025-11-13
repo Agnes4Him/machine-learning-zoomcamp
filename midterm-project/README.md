@@ -76,6 +76,8 @@ The model’s predictions could be used to:
 This predictive model serves as a decision-support tool, not a replacement for clinical judgment. It quantifies risk and helps prioritize attention toward teens who need support the most.
 
 # IMPLEMENTATION STEPS
+To begin, a uv project was initialized within the project's work directory and necessary libraries were installed. This helped to isolate the project and avaoid conflicts in library versions. Next...
+
 ### Data Sourcing
 The dataset used is the `teen_phone_addiction_dataset` found on Kaggle. This dataset was downloaded and slightly modified. The modified
 version of the datase in CSV format used in this project can be found at [teen_phone_addiction_dataset](https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/teen_phone_addiction_dataset2.csv).
@@ -150,75 +152,102 @@ Docker was used to containerize the application, and tested locally. The image c
 ### ECR Images
 ![ECR Repo](images/ecr-images.png)
 
+### App Runner Service
+![App Runner Service](images/app-runner-service.pngs)
 
+### App Runner Overview
+![App Runner](images/app-runner-overview.png)
 
+## CI/CD
+A CI/CD Pipeline was integrated to the project to detect changes in the project's core files, build and push a new image to 
+ECR, and update the App Runner Service to reflect the changes.
 
-# Outline
-* Introduction
+### CI/CD Trigger
+![CI-CD Trigger](images/ci-cd-update.png)
 
-* Problem statement
+# REPRODUCING PROJECT RESULT
+To reproduce the same result, follow these steps:
 
-* Problem description
+- Ensure the following prerequisites are met:
+* Install `uv` locally
 
-* Steps in execution
-- Data source and download
-- EDA
-- Feature engineering
-- Model training using different algorithms and evaluation. RMSE
-- Full training
-- Save model locally
-- Convert notebook to script(`train.py`) and clean up
-- Create a web server with FastAPI to run predictions (`predict.py`)
-- Test API using `test_predict.py`
-- Dockerize web server and push to ECR - show images of docker commands and ECR repo
-- Deploy to App Runner - show images to confirm cloud deployment
-- CI/CD pipeline for automatic update to web server
+* Install `docker` locally
 
-* How to reproduce/replicate
-- Explain directory structure
-- How to run web server locally and test prediction
-- How to build and run docker image locally and test prediction
-- How to push docker image to ECR
-- How to deploy the image to App Runner and test prediction
-- Using CI/CD pipeline to update the deployment
+* Install `aws-cli` locally
 
-* Limitations and next steps 
-- Experiment tracking
-- Hyperparameter tuning
-- Training pipeline
-- Use of model registry
+* Access to AWS account with `Adminstrator` privilege
 
+* AWS `access key` and `secret key` stored in `~/.aws/credential`
 
-## Push Image to ECR
+- Locate the project directory - `midterm-project` and change directory to it
 
-* Run:
 ```bash
-aws ecr create-repository \
-    --repository-name teen-addiction-prediction \
-    --region us-east-1
-
+cd midterm-project
 ```
 
-* Authenticate:
+- Install libraries
+
+```bash
+uv sync
+```
+
+- Run web server locally
+
+```bash
+uv run uvicorn predict:app --host 0.0.0.0 --port 8000 --reload
+```
+
+- Test the server on another terminal
+
+```bash
+cd midterm-project
+uv run python test_predict.py
+```
+
+- Dockerize the web server
+
+```bash
+docker build -t <IMAGE_NAME>:<TAG> .
+```
+
+- Run container locally
+
+```bash
+docker run -d -p 8000:8000 <IMAGE_NAME>:<TAG>
+```
+
+- Test again
+
+```bash
+uv run python test_predict.py
+```
+
+- Push image to ECR or any other Docker registry of choice
+
 ```bash
 aws ecr get-login-password --region us-east-1 | \
-docker login --username AWS --password-stdin 759907441676.dkr.ecr.us-east-1.amazonaws.com
+docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+
+docker tag teen-addiction-prediction:1.0.0 <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/<IMAGE_NAME>:<TAG>
+
+docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/<IMAGE_NAME>:<TAG>
 ```
 
-* Tag iamge:
-```bash
-docker tag teen-addiction-prediction:1.0.0 759907441676.dkr.ecr.us-east-1.amazonaws.com/teen-addiction-prediction:1.0.0
-```
+- Create an Amazon App Runner Service and select ECR as container image source
 
-* Push image:
-```bash
-docker push 759907441676.dkr.ecr.us-east-1.amazonaws.com/teen-addiction-prediction:1.0.0
-```
+- Use the URL provided to access the web server UI and test prediction again
 
-* Verify:
-```bash
-aws ecr list-images --repository-name my-app --region us-east-1
-```
+- Trigger CI/CD pipeline by making changes to any file in the project dolder except the notebook or README.md file
 
-## Start web server
-uvicorn predict:app --host 0.0.0.0 --port 8000 --reload
+# Limitations and next steps 
+The following limitations and next steps to improve on model quality and enhance the performance and reliability of the web server:
+
+- Experiment tracking using `MLFlow`
+
+- Hyperparameter tuning
+
+- Training pipeline using `kubeflow` etc
+
+- Use of a model registry
+
+- Monitoring and Observability
