@@ -78,7 +78,57 @@ This predictive model serves as a decision-support tool, not a replacement for c
 # IMPLEMENTATION STEPS
 ### Data Sourcing
 The dataset used is the `teen_phone_addiction_dataset` found on Kaggle. This dataset was downloaded and slightly modified. The modified
-version of the datase in CSV format used in this project can be found at [teen_phone_addiction_dataset](https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/teen_phone_addiction_dataset2.csv)
+version of the datase in CSV format used in this project can be found at [teen_phone_addiction_dataset](https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/teen_phone_addiction_dataset2.csv).
+
+## Exploratory Data Analysis
+This revealed the following for `Addiction_Level`:
+- count - 3000.000000
+- mean  - 8.881900
+- std   - 1.609598
+- min   - 1.000000
+- 25%   - 8.000000
+- 50%   - 10.000000
+- 75%   - 10.000000
+- max   - 10.000000
+
+There were no null or duplicate data in the dataset.
+
+## Feature Engineering
+An extra column name `Addiction_Category` was added to the dataset to categorize `Addiction_Level`.
+
+## Model Training
+This was achieved by splitting the data into train, validation and test datasets.
+The following models were trained using train dataset, validated using validation dataset, and their `RMSE` was determined to find the best model for this use case:
+- LinearRegressor
+
+- RidgeRegressor
+
+- LassoRegressor
+
+- DecisionTreeRegressor
+
+- RandomForestRegressor
+
+- XGBoost
+
+Different parameters were tested to find the best spot. XGBoost had the best performance.
+
+XGBoost was retrained using a combination of train and validation dataset, and then tested using test dataset. This gave an `RMSE` of `0.659`.
+
+The model was saved locally as `model.bin`using `pickle`.
+
+The notebook used for the training `mid-term.ipynb` was converted to a Python script named `train.py`.
+
+## Web Server
+Uisng `FastAPI`, a web server was created to serve the saved model and make predictions on new data. Input validation and type checking was added.
+for quality control. The setup was tested by sending a `POST` request from `test_predict.py`.
+
+![Start Web Server](midterm-project/images/start-server-local.png)
+
+![Server UI Local](midterm-project/images/server-ui-local.png)
+
+## Deployment
+Docker was used to containerize the application, and tested locally. The image created was pushed to Amazon ECR to be deployed to App Runner subsequently.
 
 
 
@@ -149,3 +199,6 @@ docker push 759907441676.dkr.ecr.us-east-1.amazonaws.com/teen-addiction-predicti
 ```bash
 aws ecr list-images --repository-name my-app --region us-east-1
 ```
+
+## Start web server
+uvicorn predict:app --host 0.0.0.0 --port 8000 --reload
