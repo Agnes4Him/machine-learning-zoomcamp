@@ -1,7 +1,7 @@
 # INTRODUCTION
-This is a midterm project for the `Machine Learning Zoomcamp - 2025` to demostrate my understanding being able to:
+This is a midterm project for the `Machine Learning Zoomcamp - 2025` to demonstrate my understanding and ability to:
 
-- Ientify a problem
+- Identify a problem
 
 - Describe the problem
 
