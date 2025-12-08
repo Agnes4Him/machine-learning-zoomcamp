@@ -1,0 +1,1 @@
+FROM agrigorev/model-2025-hairstyle:v1
