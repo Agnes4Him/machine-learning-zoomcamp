@@ -17,10 +17,7 @@ def preprocess_pytorch_style(X):
 
     return X.astype(np.float32)
 
-def lambda_handler(event, context):
-    #image_url = "https://habrastorage.org/webt/yf/_d/ok/yf_dokzqy3vcritme8ggnzqlvwa.jpeg"
-    image_url = event["image_url"]
-
+def predict(image_url: str):
     preprocessor = create_preprocessor(preprocess_pytorch_style, target_size=(200, 200))
     X = preprocessor.from_url(image_url)
 
@@ -35,10 +32,23 @@ def lambda_handler(event, context):
 
     classes = ["straight", "curly"]
 
-    i = np.argmax(pred)
     float_predictions = pred[0].tolist()
 
-    return {
-        "predicted_class": classes[i],
-        "confidence": float_predictions[i]
-    }
+
+    return dict(zip(classes, float_predictions))
+
+def lambda_handler(event, context):
+    image_url = event["image_url"]
+
+    try:
+        prediction = predict(image_url)
+
+        return {
+            "statusCode": 200,
+            "body": prediction
+        }
+    except Exception as e:
+        return {
+            "statusCode": 400,
+            "body": {"error": str(e)}
+        }

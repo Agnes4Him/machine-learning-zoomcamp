@@ -17,30 +17,30 @@ def preprocess_pytorch_style(X):
 
     return X.astype(np.float32)
 
-image_url = "https://habrastorage.org/webt/yf/_d/ok/yf_dokzqy3vcritme8ggnzqlvwa.jpeg"
+def predict(image_url: str):
+    preprocessor = create_preprocessor(preprocess_pytorch_style, target_size=(200, 200))
+    X = preprocessor.from_url(image_url)
 
-preprocessor = create_preprocessor(preprocess_pytorch_style, target_size=(200, 200))
-X = preprocessor.from_url(image_url)
 
+    session = ort.InferenceSession("./model/hair_classifier_v1.onnx")
 
-session = ort.InferenceSession("./model/hair_classifier_v1.onnx")
+    input_name = session.get_inputs()[0].name
 
-input_name = session.get_inputs()[0].name
+    output_name = session.get_outputs()[0].name
 
-output_name = session.get_outputs()[0].name
+    pred = session.run([output_name], {input_name: X})[0]
 
-pred = session.run([output_name], {input_name: X})[0]
+    classes = ["straight", "curly"]
 
-classes = ["straight", "curly"]
+    float_predictions = pred[0].tolist()
 
-i = np.argmax(pred)
+    result = dict(zip(classes, float_predictions))
 
-float_predictions = pred[0].tolist()
+    return {
+            "statusCode": 200,
+            "body": result
+    }
 
-result = {
-    "predicted_class": classes[i],
-    "confidence": float_predictions[i]
-}
-print(pred)
-
-print(result)
+if __name__ == "__main__":
+    image_url = "https://habrastorage.org/webt/yf/_d/ok/yf_dokzqy3vcritme8ggnzqlvwa.jpeg"
+    print(predict(image_url))
