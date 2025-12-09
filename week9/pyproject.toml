@@ -7,6 +7,6 @@ requires-python = ">=3.12"
 dependencies = [
     "keras-image-helper>=0.0.2",
     "numpy>=2.3.5",
-    "onnx>=1.20.0",
     "onnxruntime>=1.23.2",
+    "requests>=2.32.5",
 ]
