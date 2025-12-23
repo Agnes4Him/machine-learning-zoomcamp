@@ -3,4 +3,8 @@
 
 * Employee Attrition prediction - Classification
 
-* Energy Consumption Prediction - Regression
+* Energy Consumption Prediction - Regression  (use)
+
+* Sentiment analysis on healthcare dataset     (use)
+
+* DataTalks Club FAQ upload text classification task  (For later)
