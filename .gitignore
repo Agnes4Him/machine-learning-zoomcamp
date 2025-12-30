@@ -1,13 +1,17 @@
-*/__pycache__
+**/__pycache__
 
 */store
 
-*/server.log
+**/server.log
 
-*/.venv
-
-*/.python-version
+**/.venv
 
 **data
 
 **.ipynb_checkpoints
+
+**mlartifacts
+
+**backend.db
+
+**models
