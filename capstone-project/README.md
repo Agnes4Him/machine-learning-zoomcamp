@@ -22,3 +22,6 @@ https://www.kaggle.com/datasets/thedevastator/german-2021-patient-reviews-and-ra
 https://www.kaggle.com/datasets/junaid6731/hospital-reviews-dataset
 
 https://archive.ics.uci.edu/dataset/461/drug+review+dataset+druglib+com     // Drug review
+
+## MLFlow commands
+
