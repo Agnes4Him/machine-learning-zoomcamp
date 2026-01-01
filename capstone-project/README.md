@@ -24,4 +24,11 @@ https://www.kaggle.com/datasets/junaid6731/hospital-reviews-dataset
 https://archive.ics.uci.edu/dataset/461/drug+review+dataset+druglib+com     // Drug review
 
 ## MLFlow commands
+mlflow server --backend-store-uri sqlite:///backend.db
 
+
+### Run ML Pipeline
+
+* python pipeline.py 
+
+* uv run prefect flow run training_flow
