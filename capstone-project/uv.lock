@@ -307,6 +307,11 @@ dependencies = [
     { name = "xgboost" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "requests" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.128.0" },
@@ -321,6 +326,9 @@ requires-dist = [
     { name = "uvicorn", specifier = ">=0.40.0" },
     { name = "xgboost", specifier = ">=3.1.2" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "requests", specifier = ">=2.32.5" }]
 
 [[package]]
 name = "certifi"

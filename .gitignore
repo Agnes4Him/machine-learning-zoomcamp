@@ -17,3 +17,6 @@
 **models
 
 **model.bin
+
+# Logs
+**/*.log

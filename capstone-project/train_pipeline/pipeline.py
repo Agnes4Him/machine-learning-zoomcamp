@@ -89,7 +89,7 @@ def split_data(df: pd.DataFrame):
 def prepare_targets(df: pd.DataFrame):
     y = df[TARGET].values
     df = df.drop(columns=[TARGET])
-    return X, y
+    return df, y
 
 # Vectorization
 
@@ -172,7 +172,7 @@ def register_model(run_id: str, model_name: str):
 
 # Flow definition
 
-@flow(name="energy-consumption-training-pipeline")
+@flow(log_prints=True)
 def training_flow():
     df = load_data(DATASET_URL)
     df = clean_columns(df)
@@ -216,6 +216,15 @@ def training_flow():
     register_model(
         run_id_full,
         "Energy Consumption RandomForestRegression - Full Train",
+    )
+
+
+if __name__ == "__main__":
+    training_flow.serve(
+        name="energy-consumption-training-pipeline",
+        tags=["ml-pipeline", "energy-consumption"],
+        #cron="* * * * *"
+
     )
 
 

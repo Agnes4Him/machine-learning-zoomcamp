@@ -29,6 +29,8 @@ mlflow server --backend-store-uri sqlite:///backend.db
 
 ### Run ML Pipeline
 
-* python pipeline.py 
+* uv run python train_pipeline/pipeline.py 
 
-* uv run prefect flow run training_flow
+* uv run prefect deployment run 'training-flow/energy-consumption-training-pipeline'      *** To trigger immediate run
+
+### Run FastAPI server
