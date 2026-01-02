@@ -1,4 +1,3 @@
-from copyreg import pickle
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 
