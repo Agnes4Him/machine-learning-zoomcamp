@@ -1,8 +1,12 @@
+import os
+import mlflow
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 
 from typing import Literal
 import logging
+
+from dotenv import load_dotenv
 
 from fastapi import FastAPI, status, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -10,7 +14,11 @@ from fastapi.exceptions import RequestValidationError
 import uvicorn
 from pydantic import BaseModel, Field, ConfigDict
 
-MLFLOW_URL = "http://127.0.0.1:5000"
+load_dotenv()
+
+MLFLOW_URL = os.getenv("MLFLOW_URL")
+
+mlflow.set_tracking_uri(MLFLOW_URL)
 
 client = MlflowClient(MLFLOW_URL)
 
@@ -30,12 +38,11 @@ app = FastAPI(
 
 # Fetch the model
 try:
-    model_name = "Energy Consumption RandomForestRegression - Full Train"
-    model_version = 1 
-    model_info = client.get_registered_model(model_name)
-    version_info = client.get_model_version(name=model_name, version=model_version)
-    source_path = version_info.source
-    sklearn_pipeline = mlflow.sklearn.load_model(source_path)
+    model_name = "energy-consumption-rf-full-train@latest"
+    #model_name = "Energy Consumption RandomForestRegression - Full Train@latest"
+    model_uri = f"models:/{model_name}"
+
+    sklearn_pipeline = mlflow.sklearn.load_model(model_uri)
 
     dv = sklearn_pipeline.named_steps["dictvectorizer"]
     rf = sklearn_pipeline.named_steps["randomforestregressor"]

@@ -4,15 +4,15 @@ import requests
 url = "http://localhost:8000/predict"
 
 household = {
-                "appliance_type": "Oven",
-                "season": "Winter",
-                "outdoor_temperature": 5.3,
+                "appliance_type": "Air Conditioning",
+                "season": "Summer",
+                "outdoor_temperature": 12,
                 "household_size": 4,
-                "hour": 2,
-                "day_of_week": 3,
+                "hour": 4,
+                "day_of_week": 5,
                 "day": 12,
                 "month": 1,
-                "is_weekend": 0
+                "is_weekend": 1
             }
 
 try:
