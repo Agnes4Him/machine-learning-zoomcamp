@@ -1,9 +1,11 @@
+import os
 from prefect import flow, task
 from prefect.tasks import task_input_hash
 from datetime import timedelta
 
 import pandas as pd
 import numpy as np
+from dotenv import load_dotenv
 
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction import DictVectorizer
@@ -14,10 +16,13 @@ from sklearn.ensemble import RandomForestRegressor
 import mlflow
 from mlflow.tracking import MlflowClient
 
-MLFLOW_URL = "http://localhost:5000"
+load_dotenv()
 
-#DATASET_URL = "https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/smart_home_energy_consumption_large.csv"
-DATASET_URL = "../data/capstone/smart_home_energy_consumption_large.csv"
+MLFLOW_URL = os.getenv("MLFLOW_URL", "http://localhost:5000")
+MODEL_NAME = os.getenv("MODEL_NAME", "Energy Consumption RandomForestRegression - Full Train")
+
+DATASET_URL = "https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/smart_home_energy_consumption_large.csv"
+#DATASET_URL = "../data/capstone/smart_home_energy_consumption_large.csv"
 
 mlflow.set_tracking_uri(MLFLOW_URL)
 
@@ -218,8 +223,7 @@ def training_flow():
 
     register_model(
         run_id_full,
-        #"energy-consumption-rf-full-train",
-        "Energy Consumption RandomForestRegression - Full Train"
+        MODEL_NAME
     )
 
 
@@ -227,8 +231,9 @@ if __name__ == "__main__":
     training_flow.serve(
         name="energy-consumption-training-pipeline",
         tags=["ml-pipeline", "energy-consumption"],
-        #cron="* * * * *"
-
+        cron="*/5 * * * *",  # every 5 minutes
+        # cron="0 * * * *",  # hourly
+        # cron="0 0 * * *",  # daily at midnight
     )
 
 
