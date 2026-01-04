@@ -14,13 +14,15 @@ from sklearn.ensemble import RandomForestRegressor
 import mlflow
 from mlflow.tracking import MlflowClient
 
-MLFLOW_URL = "http://127.0.0.1:5000"
+MLFLOW_URL = "http://localhost:5000"
+
+#DATASET_URL = "https://raw.githubusercontent.com/Agnes4Him/project-datasets/refs/heads/main/smart_home_energy_consumption_large.csv"
 DATASET_URL = "../data/capstone/smart_home_energy_consumption_large.csv"
 
 mlflow.set_tracking_uri(MLFLOW_URL)
 
 NUMERICAL = [
-    "outdoor_temperature_°c",
+    "outdoor_temperature",
     "household_size",
     "hour",
     "day_of_week",
@@ -46,6 +48,7 @@ def clean_columns(df: pd.DataFrame) -> pd.DataFrame:
           .str.lower()
           .str.replace(r"[()]", "", regex=True)
           .str.replace(r"\s+", "_", regex=True)
+          .str.replace(r"_°c$", "", regex=True)
     )
     return df
 
@@ -215,7 +218,8 @@ def training_flow():
 
     register_model(
         run_id_full,
-        "Energy Consumption RandomForestRegression - Full Train",
+        #"energy-consumption-rf-full-train",
+        "Energy Consumption RandomForestRegression - Full Train"
     )
 
 

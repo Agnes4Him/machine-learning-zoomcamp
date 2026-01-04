@@ -38,8 +38,7 @@ app = FastAPI(
 
 # Fetch the model
 try:
-    model_name = "energy-consumption-rf-full-train@latest"
-    #model_name = "Energy Consumption RandomForestRegression - Full Train@latest"
+    model_name = "Energy Consumption RandomForestRegression - Full Train@latest"
     model_uri = f"models:/{model_name}"
 
     sklearn_pipeline = mlflow.sklearn.load_model(model_uri)
@@ -51,7 +50,6 @@ try:
 except Exception as e:
     logger.error(f"Error occurred while loading model: {e}")
     dv, rf = None, None
-
 
 # Define classes for request and response bodies
 class HouseholdFeatures(BaseModel):

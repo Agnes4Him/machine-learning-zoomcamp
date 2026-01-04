@@ -1,9 +1,0 @@
-services:
-  energy-prediction-server:
-    image: energy-prediction-server:1.0.0
-    ports:
-      - "8000:8000"
-    environment:
-      - MLFLOW_URL=http://host.docker.internal:5000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"

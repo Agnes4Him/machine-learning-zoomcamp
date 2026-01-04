@@ -1,18 +1,34 @@
 services:
   mlflow:
-    image: ghcr.io/mlflow/mlflow
-    ports:
-      - "5000:5000"
-    command: >
-      mlflow server
-      --host 0.0.0.0
-      --port 5000
-      --backend-store-uri sqlite:///mlflow.db
+      image: ghcr.io/mlflow/mlflow
+      container_name: mlflow-server
+      command:
+        - /bin/bash
+        - -c
+        - |
+          mlflow server \
+            --backend-store-uri sqlite:///mlflow.db \
+            --host 0.0.0.0 \
+            --port 5000 \
+            --cors-allowed-origins "*" \
+            --x-frame-options NONE \
+            --disable-security-middleware
+      ports:
+        - "5000:5000"
+      networks:
+      - app-network
+
   energy-prediction-server:
-    image: energy-prediction-server:1.0.0
+    image: energy-prediction-server:2.0.0
     ports:
       - "8000:8000"
     environment:
       - MLFLOW_URL=http://mlflow:5000
     depends_on:
       - mlflow
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
