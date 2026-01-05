@@ -84,6 +84,14 @@ Container scan	Trivy
 Image registry	Docker Hub
 Manifest update	sed + git commit
 
+### SonarQube properties file
+sonar.projectKey=fastapi-web
+sonar.projectName=fastapi-web
+sonar.sources=server
+sonar.tests=tests
+sonar.python.coverage.reportPaths=coverage.xml
+sonar.sourceEncoding=UTF-8
+
 ### Create K8s cluster with `kind`
 ```bash
 kind create cluster --name ml --config kubernetes/kind/kind-config.yaml

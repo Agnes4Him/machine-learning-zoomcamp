@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: train-pipeline
-          image: training-pipeline:1.0.0
+          image: agnes4im/training-pipeline:1.0.0
           env:
             - name: MLFLOW_URL
               value: "http://mlflow:5000"
