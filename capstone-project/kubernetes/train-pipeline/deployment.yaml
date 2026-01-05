@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: train-pipeline
+  labels:
+    app: train-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: train-pipeline
+  template:
+    metadata:
+      labels:
+        app: train-pipeline
+    spec:
+      containers:
+        - name: train-pipeline
+          image: training-pipeline:1.0.0
+          env:
+            - name: MLFLOW_URL
+              value: "http://mlflow:5000"
+            - name: MODEL_NAME
+              value: "Energy Consumption RandomForestRegression - Full Train"
+            - name: PREFECT_API_URL
+              value: "http://prefect:4200/api"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
