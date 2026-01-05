@@ -20,10 +20,3 @@ spec:
           command: ["prefect", "server", "start", "--host", "0.0.0.0"]
           ports:
             - containerPort: 4200
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "256Mi"

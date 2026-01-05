@@ -83,3 +83,8 @@ SAST	SonarQube (external)
 Container scan	Trivy
 Image registry	Docker Hub
 Manifest update	sed + git commit
+
+### Create K8s cluster with `kind`
+```bash
+kind create cluster --name ml --config kubernetes/kind/kind-config.yaml
+```

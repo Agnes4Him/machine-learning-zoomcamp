@@ -20,28 +20,3 @@ spec:
           command: ["/bin/bash", "-c", "mlflow server --backend-store-uri sqlite:///mlflow.db --host 0.0.0.0 --port 5000 --cors-allowed-origins '*' --x-frame-options NONE --disable-security-middleware"]
           ports:
             - containerPort: 5000
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "256Mi"
-
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 5000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 2
-            failureThreshold: 3
-
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 5000
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 2
-            failureThreshold: 3
