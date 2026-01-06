@@ -119,6 +119,12 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ### Run SonarQube
 ```bash
+sudo apt install docker.io
+
+sudo usermod -aG docker $USER
+
+newgrp docker 
+
 docker run --name sonarqube-custom -p 9000:9000 -d sonarqube:10.6-community
 ```
 

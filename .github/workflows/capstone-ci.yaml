@@ -47,7 +47,7 @@ jobs:
     # Dependency Vulnerability Scan
     - name: Dependency check - Safety
       run: |
-        safety check --full-report || true
+        safety scan --full-report || true         
 
     # SonarQube Scan - SAST
     - name: SonarQube Scan
