@@ -59,9 +59,9 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   ingress {
-    description = "App on port 5000"
-    from_port   = 5000
-    to_port     = 5000
+    description = "App on port 9000"
+    from_port   = 9000
+    to_port     = 9000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

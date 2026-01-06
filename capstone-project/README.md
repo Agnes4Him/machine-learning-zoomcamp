@@ -98,3 +98,15 @@ sonar.sourceEncoding=UTF-8
 ```bash
 kind create cluster --name ml --config kubernetes/kind/kind-config.yaml
 ```
+
+### ArgoCD Docs
+https://www.digitalocean.com/community/tutorials/how-to-deploy-to-kubernetes-using-argo-cd-and-gitops     ## Installations
+
+https://argo-cd.readthedocs.io/en/stable/getting_started/       ## Creating Apps through UI
+
+### Run SonarQube
+```bash
+docker run --name sonarqube-custom -p 9000:9000 sonarqube:10.6-community
+```
+
+### Amazon EKS
