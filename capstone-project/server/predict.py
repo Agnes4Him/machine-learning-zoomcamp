@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field, ConfigDict
 load_dotenv()
 
 MLFLOW_URL = os.getenv("MLFLOW_URL", "http://localhost:5000")
-MODEL_NAME = os.getenv("MODEL_NAME", "energy-consumption-model")
+MODEL_NAME = os.getenv("MODEL_NAME", "Energy Consumption RandomForestRegression - Full Train")
 
 mlflow.set_tracking_uri(MLFLOW_URL)
 
@@ -133,7 +133,7 @@ def predict_single(household_dict: dict) -> float:
         X = dv.transform(household_dict)
         result = rf.predict(X)
 
-        return float(result[0]).round(2)
+        return round(float(result[0]), 2)
     except Exception as e:
         logger.error(f"Error during prediction: {e}")
         raise
