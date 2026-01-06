@@ -16,8 +16,8 @@ from pydantic import BaseModel, Field, ConfigDict
 
 load_dotenv()
 
-MLFLOW_URL = os.getenv("MLFLOW_URL")
-MODEL_NAME = os.getenv("MODEL_NAME")
+MLFLOW_URL = os.getenv("MLFLOW_URL", "http://localhost:5000")
+MODEL_NAME = os.getenv("MODEL_NAME", "energy-consumption-model")
 
 mlflow.set_tracking_uri(MLFLOW_URL)
 
