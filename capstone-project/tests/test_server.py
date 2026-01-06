@@ -61,8 +61,10 @@ def test_predict_single_function(monkeypatch):
         class DummyRF:
             def predict(self, X):
                 return [42.42]
-        monkeypatch.setattr("app.main.dv", DummyDV())
-        monkeypatch.setattr("app.main.rf", DummyRF())
+        '''monkeypatch.setattr("app.main.dv", DummyDV())
+        monkeypatch.setattr("app.main.rf", DummyRF())'''
+        monkeypatch.setattr("dv", DummyDV())
+        monkeypatch.setattr("rf", DummyRF())
 
     payload = {
         "appliance_type": "Oven",
