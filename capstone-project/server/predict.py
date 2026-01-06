@@ -133,7 +133,7 @@ def predict_single(household_dict: dict) -> float:
         X = dv.transform(household_dict)
         result = rf.predict(X)
 
-        return float(result[0].round(2))
+        return float(result[0]).round(2)
     except Exception as e:
         logger.error(f"Error during prediction: {e}")
         raise
