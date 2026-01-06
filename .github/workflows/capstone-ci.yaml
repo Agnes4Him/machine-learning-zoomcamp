@@ -1,12 +1,12 @@
-name: FastAPI CI Pipeline
+name: ML Model CI Pipeline
 
 on:
-  #push:
-    #branches:
-    #- main
-    #paths:
-    #- "capstone-project/server/Dockerfile"
-    #- "capstone-project/server/predict.py"
+  push:
+    branches:
+    - main
+    paths:
+    - "capstone-project/server/Dockerfile"
+    - "capstone-project/server/predict.py"
   workflow_dispatch:
 
 env:
