@@ -164,7 +164,7 @@ async def predict(household: HouseholdFeatures) -> PredictResponse:
         logger.error(f"Error in /predict endpoint: {e}")
         raise HTTPException(status_code=500, detail="Prediction failed. Check server logs.")
 
-
+# For health check
 @app.get("/ping")
 def ping():
     """
