@@ -11,7 +11,9 @@ on:
 
 env:
   IMAGE_NAME: energy-prediction-server
-  REGISTRY: docker.io
+  IMAGE_TAG: ${{ github.sha }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
 jobs:
   ci:
@@ -36,7 +38,9 @@ jobs:
     - name: Run unit tests
       run: |
         cd capstone-project
-        pytest --cov-report=xml
+        pytest --cov=server \
+        --cov-report=term-missing \
+        --cov-report=xml
 
     # Dependency Vulnerability Scan
     - name: Dependency check - Safety
@@ -64,15 +68,15 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_TOKEN
 
     # Docker Build
     - name: Build Docker image
       run: |
         docker build \
           -f capstone-project/server/Dockerfile \
-          -t ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }} \
+          -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG \
           .
 
     # Smoke Test
@@ -93,19 +97,23 @@ jobs:
     # Push Docker Image
     - name: Push Docker image
       run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}
+        docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG
 
     # Update Kubernetes Manifest
     - name: Update Kubernetes manifest image tag
       run: |
         sed -i \
-          "s|image: .*|image: ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:${{ github.sha }}|" \
-          capstone-project/kubernetes/server/deployment.yaml
+          "s|image: .*|image: $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG|" \
+          capstone-project/kubernetes/eks/server/deployment.yaml \
+
+        sed -i \
+          "s|image: .*|image: $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG|" \
+          capstone-project/kubernetes/local/server/deployment.yaml
 
     - name: Commit updated manifest
       run: |
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git add capstone-project/kubernetes/server/deployment.yaml
+        git add capstone-project/kubernetes/eks/server/deployment.yaml capstone-project/kubernetes/local/server/deployment.yaml
         git commit -m "Update image tag to ${{ github.sha }}" || echo "No changes"
         git push

@@ -96,7 +96,7 @@ sonar.sourceEncoding=UTF-8
 
 ### Create K8s cluster with `kind`
 ```bash
-kind create cluster --name ml --config kubernetes/kind/kind-config.yaml
+kind create cluster --name ml --config capstone-project/kubernetes/local/kind/kind-config.yaml
 ```
 
 ### ArgoCD Docs
@@ -104,9 +104,22 @@ https://www.digitalocean.com/community/tutorials/how-to-deploy-to-kubernetes-usi
 
 https://argo-cd.readthedocs.io/en/stable/getting_started/       ## Creating Apps through UI
 
+Commands
+```bash
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+watch kubectl get pods -n argocd
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443                    ## Port forwarding to access ArgoCD UI
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo            ## Retrieve ArgoCD password. User is `admin`
+```
+
 ### Run SonarQube
 ```bash
-docker run --name sonarqube-custom -p 9000:9000 sonarqube:10.6-community
+docker run --name sonarqube-custom -p 9000:9000 -d sonarqube:10.6-community
 ```
 
 ### Amazon EKS

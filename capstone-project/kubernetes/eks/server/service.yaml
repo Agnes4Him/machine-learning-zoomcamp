@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: energy-prediction-server
+spec:
+  type: LoadBalancer
+  selector:
+    app: energy-prediction-server
+  ports:
+    - port: 8000
+      targetPort: 8000

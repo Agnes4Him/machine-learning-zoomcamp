@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-IMAGE="$DOCKERHUB_USERNAME/fastapi-web:$GITHUB_SHA"
+DOCKERHUB_USERNAME="${DOCKERHUB_USERNAME:-my_dockerhub_username}"
+IMAGE_NAME="${IMAGE_NAME:-energy-prediction-server}"
+IMAGE_TAG="${IMAGE_TAG:-latest}"
+
+IMAGE="$DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG"
 
 echo "Starting container for smoke test..."
 docker run -d -p 8000:8000 --name smoke-test "$IMAGE"
