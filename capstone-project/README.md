@@ -58,7 +58,7 @@ External factors such as energy pricing, occupancy behaviour changes, or unexpec
 
 The model’s performance is dependent on the quality and completeness of historical data and may require retraining for deployment in different contexts.
 
-##############################################################################################################################################
+###################################################
 
 ## Model Training
 
