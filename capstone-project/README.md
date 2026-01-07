@@ -1,4 +1,89 @@
-## Documentation still loading...
+# ENERGY CONSUMPTION PREDICTION MACHINE LEARNING CAPSTONE PROJECT
+
+## Problem Statement
+
+Energy consumption forecasting is a fundamental problem in modern energy management systems, as it directly supports efficient resource allocation, cost reduction, and sustainability initiatives. With increasing energy demand and variability in household usage patterns, traditional rule-based or aggregate forecasting approaches are often insufficient to capture the complex relationships between time, environmental conditions, appliance usage, and household characteristics.
+
+This project focuses on developing a machine learning–based predictive model to estimate household energy consumption using historical data. The dataset used was sourced from Kaggle and contains approximately 100,000 records of household energy usage. Each record includes attributes such as home_id, appliance_type, historical energy_consumption_kwh, timestamp information (date and time), outdoor_temperature, season, and household_size. The target variable for the prediction task is energy consumption.
+
+A significant challenge in this problem is effectively modelling the temporal dynamics of energy usage. Energy consumption varies not only across households and appliances, but also across different times of day, days of the week, and seasons. To address this challenge, feature engineering was applied to extract granular temporal features from the raw timestamp data, including day, day of week, hour, and minute. These engineered features enable the models to learn cyclical and behavioural consumption patterns more effectively.
+
+Several supervised machine learning models were trained and evaluated, including Decision Tree, Random Forest, and XGBoost. Comparative evaluation showed that the Random Forest model achieved the best predictive performance, indicating its effectiveness in capturing non-linear relationships and interactions between features in the dataset.
+
+The final model is intended to serve as a predictive tool for estimating household energy consumption based on historical, environmental, and temporal factors. This solution can be used to support energy demand forecasting, identify high-consumption patterns, and inform decision-making in energy management and optimisation systems.
+
+## Project Objectives
+
+The key objectives of this project are:
+
+To analyse household energy consumption data and identify key factors influencing energy usage.
+
+To apply feature engineering techniques to improve representation of temporal and contextual information.
+
+To train and compare multiple machine learning models for energy consumption prediction.
+
+To evaluate model performance and select the most effective predictive model.
+
+To develop a reusable prediction model that can support energy planning and management use cases.
+
+## Scope and Limitations
+
+1. Scope
+
+The project focuses on supervised machine learning approaches for regression-based energy consumption prediction.
+
+Predictions are based on historical consumption, household attributes, appliance type, environmental conditions, and engineered time features.
+
+Model evaluation is performed using standard performance metrics to compare multiple algorithms.
+
+2. Limitations
+
+The dataset is sourced from Kaggle and may not fully represent real-world energy usage across all geographic regions or household types.
+
+External factors such as energy pricing, occupancy behaviour changes, or unexpected events are not included in the dataset.
+
+The model’s performance is dependent on the quality and completeness of historical data and may require retraining for deployment in different contexts.
+
+##############################################################################################################################################
+
+## Model Training
+
+### Data Loading
+
+### Exploratory Data Analysis
+
+### Data Cleaning
+
+### Feature Engineering
+
+### Train Multiple Models
+
+### Experiment Tracking
+
+### Training Pipeline
+1. Steps to run
+
+### Web Service
+1. Steps to run
+
+### Local Deployments - Kind
+1. Steps to deploy and run
+
+### Cloud Deployments - EKS
+1. Steps to deploy and run
+
+### CI/CD Pipeline - GitHub Actions
+
+### Monitoring and Observability
+
+### Future Improvements
+
+
+
+
+
+
+
 
 ### MLFlow commands
 ```bash
