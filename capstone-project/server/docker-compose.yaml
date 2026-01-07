@@ -1,0 +1,35 @@
+services:
+  mlflow:
+      image: ghcr.io/mlflow/mlflow
+      container_name: mlflow-server
+      command:
+        - /bin/bash
+        - -c
+        - |
+          mlflow server \
+            --backend-store-uri sqlite:///mlflow.db \
+            --host 0.0.0.0 \
+            --port 5000 \
+            --cors-allowed-origins "*" \
+            --x-frame-options NONE \
+            --disable-security-middleware
+      ports:
+        - "5000:5000"
+      networks:
+      - app-network
+
+  energy-prediction-server:
+    image: <IMAGE_NAME>:<IMAGE_TAG>
+    ports:
+      - "8000:8000"
+    environment:
+      - MLFLOW_URL=http://mlflow:5000
+      - MODEL_NAME=Energy Consumption RandomForestRegression - Full Train
+    depends_on:
+      - mlflow
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

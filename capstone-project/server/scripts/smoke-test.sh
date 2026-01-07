@@ -30,9 +30,15 @@ docker run -d \
 echo "Starting container for smoke test..."
 docker run -d -p 8000:8000 --name smoke-test "$IMAGE"
 
-sleep 5
+echo "Waiting for application to become healthy..."
+for i in {1..20}; do
+  if curl -fs http://localhost:8000/ping; then
+    echo "Application is healthy"
+    break
+  fi
+  echo "Not ready yet... retrying ($i)"
+  sleep 3
+done
 
-echo "Checking health endpoint..."
+# Final check (fails pipeline if still unhealthy)
 curl -f http://localhost:8000/ping
-
-echo "Smoke test passed"

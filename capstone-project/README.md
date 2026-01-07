@@ -118,6 +118,14 @@ To run the pipeline without docker:
 uv sync
 ```
 
+Also run the API using docker:
+
+```bash
+cd server
+
+docker build -t 
+```
+
 * Start mlflow server with the command:
 
 ```bash
@@ -158,7 +166,32 @@ docker-compose up
 ```
 
 ### Web Service
-1. Steps to run
+
+To serve or use the model, a web server was created using `FastAPI`. The path is `./server/predict.py`.
+
+The web service downloads the model from the model registry and uses it.
+
+To run the web service, first run MLFlow server. Then run:
+
+```bash
+cd server
+
+uv run python predict.py
+```
+
+Access the API on `http://localhost:8000/docs`, and test.
+
+You can also test using a custom Python script - `server/client.py`.
+
+Unit tests have also been provided in `tests/test_server.py` to test the functions in the web app
+
+To run the tests, first ensure that MLFlow  and the web app are running.
+
+Then:
+
+```bash
+uv run pytest
+```
 
 ### Local Deployments - Kind
 1. Steps to deploy and run
