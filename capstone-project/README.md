@@ -210,7 +210,7 @@ sudo usermod -aG docker $USER
 
 newgrp docker 
 
-docker run --name sonarqube-custom -p 9000:9000 -d sonarqube:10.6-community
+docker run --name sonarqube -p 9000:9000 -d sonarqube:10.6-community
 ```
 
 ### Amazon EKS
