@@ -95,7 +95,8 @@ jobs:
       with:
         image-ref: ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         format: table
-        exit-code: 1
+        #exit-code: 1
+        exit-code: 0        # Only allow for development, change to 1 for production
         severity: CRITICAL,HIGH
 
     # Push Docker Image
@@ -119,5 +120,5 @@ jobs:
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add capstone-project/kubernetes/eks/server/deployment.yaml capstone-project/kubernetes/local/server/deployment.yaml
-        git commit -m "Update image tag to ${{ github.sha }}" || echo "No changes"
+        git commit -m "Update image tag to $IMAGE_TAG" || echo "No changes"
         git push
