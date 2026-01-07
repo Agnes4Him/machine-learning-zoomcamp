@@ -58,9 +58,29 @@ The dataset for the task was sourced from Kaggle, and loaded into Jupyter notebo
 
 ### Exploratory Data Analysis
 
+To understand the dataset better, I did some analysis to find out:
+- null values
+
+- duplicate records
+
+- existing columns and their data types
+
+- description of the numerical columns
+
+- values count for categorical columns
+
+- distribution of the target variable - skewed to the right
+
+
 ### Data Cleaning
 
+The dataset required only very minimal cleaning as there were no null or duplicate values. The columns were renamed to remove spacing and special characters.
+
 ### Feature Engineering
+
+The date and time columns were converted to the `datetime` data type, and then combined to give a singular timestamp.
+
+
 
 ### Train Multiple Models
 
