@@ -76,17 +76,18 @@ jobs:
 
     # Docker Build
     - name: Build Docker image
+      working-directory: capstone-project/server
       run: |
         docker build \
-          -f capstone-project/server/Dockerfile \
           -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG \
           .
 
     # Smoke Test
     - name: Run smoke tests
+      working-directory: capstone-project/server
       run: |
-        chmod +x capstone-project/server/scripts/smoke-test.sh
-        ./capstone-project/server/scripts/smoke-test.sh
+        chmod +x smoke-test.sh
+        ./smoke-test.sh
 
     # Trivy Image Scan
     - name: Scan image with Trivy
@@ -104,15 +105,15 @@ jobs:
 
     # Update Kubernetes Manifest
     - name: Update Kubernetes manifest image tag
+      working-directory: capstone-project/kubernetes
       run: |
         sed -i \
           "s|image: .*|image: $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG|" \
-          capstone-project/kubernetes/eks/server/deployment.yaml \
+          eks/server/deployment.yaml \
 
         sed -i \
           "s|image: .*|image: $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG|" \
-          capstone-project/kubernetes/local/server/deployment.yaml
-
+          local/server/deployment.yaml
     - name: Commit updated manifest
       run: |
         git config user.name "github-actions"

@@ -105,7 +105,21 @@ and their parameters, `RMSE` scores, and artifact (DV and model) were logged to 
 portability and reusability.
 
 ### Training Pipeline
-1. Steps to run
+
+The notebook used for the initial models training and experimentation was converted to a Python script and saved in `./train_pipeline/pipeline.py`.
+
+`Prefect` was also used to orchestrate the training workflow.
+
+To run the pipeline without docker:
+
+* Start mlflow server with the command:
+
+```bash
+uv run mlflow server --backend-store-uri sqlite:///mlflow.db --host 0.0.0.0 --port 5000 \
+--cors-allowed-origins "*" \
+--x-frame-options NONE \
+--disable-security-middleware
+```
 
 ### Web Service
 1. Steps to run
