@@ -19,7 +19,7 @@ services:
       - app-network
 
   energy-prediction-server:
-    image: energy-prediction-server:2.0.0
+    image: agnes4im/energy-prediction-server:2.0.0
     ports:
       - "8000:8000"
     environment:
@@ -39,8 +39,9 @@ services:
       - mlflow
     networks:
       - app-network
+
   training-pipeline:
-    image: training-pipeline:1.0.0
+    image: agnes4im/training-pipeline:1.0.0
     environment:
       - PREFECT_API_URL=http://prefect:4200/api
       - MLFLOW_URL=http://mlflow:5000

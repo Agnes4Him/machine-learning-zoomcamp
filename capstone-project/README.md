@@ -132,7 +132,16 @@ uv run mlflow server --backend-store-uri sqlite:///mlflow.db --host 0.0.0.0 --po
 * Run the train pipeline with the commands:
 
 ```bash
+uv run python train_pipeline/pipeline.py 
+
+uv run prefect deployment run 'training-flow/energy-consumption-training-pipeline'       # On a different terminal to trigger the flow manually
 ```
+
+* Visit `http://localhost:4200` to view the flow
+
+To run the pipeline using docker:
+
+* 
 
 ### Web Service
 1. Steps to run

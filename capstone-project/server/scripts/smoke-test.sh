@@ -7,6 +7,12 @@ IMAGE_TAG="${IMAGE_TAG:-latest}"
 
 IMAGE="$DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG"
 
+echo "Starting MLFLow server..."
+uv run mlflow server --backend-store-uri sqlite:///mlflow.db --host 0.0.0.0 --port 5000 \
+--cors-allowed-origins "*" \
+--x-frame-options NONE \
+--disable-security-middleware
+
 echo "Starting container for smoke test..."
 docker run -d -p 8000:8000 --name smoke-test "$IMAGE"
 

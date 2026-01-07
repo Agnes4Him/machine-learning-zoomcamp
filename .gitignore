@@ -12,7 +12,7 @@
 
 **mlartifacts
 
-**backend.db
+**/*.db
 
 **models
 
