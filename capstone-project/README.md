@@ -214,7 +214,36 @@ docker-compose up
 ```
 
 ### Local Deployments - Kind
-1. Steps to deploy and run
+
+To deploy the entire stack to a local Kubernetes cluster, do the following:
+
+* Create a cluster with `kind`
+
+```bash
+kind create cluster --name ml --config kubernetes/local/kind/kind-config.yaml
+```
+
+* Apply the Kubernetes files in `./kubernetes/local` in the order mlflow >> prefect >> train-pipeline >> server
+
+```bash
+cd kubernetes/local
+
+kubectl apply -f mlflow/deployment.yaml
+
+kubectl apply -f mlflow/service.yaml
+
+kubectl apply -f prefect/deployment.yaml
+
+kubectl apply -f prefect/service.yaml
+
+kubectl apply -f train-pipeline/deployment.yaml
+
+kubectl apply -f server/deployment.yaml
+
+kubectl apply -f server/service.yaml
+
+kubectl apply -f server/hpa.yaml
+```
 
 ### Cloud Deployments - EKS
 1. Steps to deploy and run

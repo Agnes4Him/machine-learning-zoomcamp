@@ -23,7 +23,7 @@ echo "Starting MLFLow server..."
 docker run -d \
   -p 5000:5000 \
   --name mlflow \
-  -network "$NETWORK_NAME" \
+  --network "$NETWORK_NAME" \
   ghcr.io/mlflow/mlflow \
   mlflow server \
     --backend-store-uri sqlite:///mlflow.db \
