@@ -80,11 +80,29 @@ The dataset required only very minimal cleaning as there were no null or duplica
 
 The date and time columns were converted to the `datetime` data type, and then combined to give a singular timestamp.
 
+Both columns were merged into a `timestamp` column which was subsequently splitted into - `hour`, `minute`, `day_of_week`, `day`, `month`, `is_weekend`.
 
+Feature importance was also done to determine the features to include in model training.
 
 ### Train Multiple Models
 
+Multiple models were trained -
+
+* Decision Trees
+
+* RandomForest
+
+* XGBoost
+
+RandomForest gave the best Root Mean Squared Error - `RMSE`
+
 ### Experiment Tracking
+
+Experiment tracking was done using `mlflow` which was installed using `UV`. Each of the 3 model above and their best paramenters, was trained within an experiment
+
+and their parameters, `RMSE` scores, and artifact (DV and model) were logged to MLFlow server. MLFlow was later ran in Docker during deployment, to achieve
+
+portability and reusability.
 
 ### Training Pipeline
 1. Steps to run
