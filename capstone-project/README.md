@@ -26,7 +26,19 @@ To evaluate model performance and select the most effective predictive model.
 
 To develop a reusable prediction model that can support energy planning and management use cases.
 
-To deploy a web service to serve the model, using best practices
+To integrate experiment tracking in model training
+
+To run model training using workflow orchestration
+
+To deploy model serving web API to Kubernetes - local and EKS
+
+To automate the deployment of model serving web service using CI/CD
+
+To integrate GitOps to model service deployment
+
+To configure observability for web API
+
+To route traffic in Kubernetes cluster using ingress controller
 
 ## Scope and Limitations
 
@@ -191,6 +203,14 @@ Then:
 
 ```bash
 uv run pytest
+```
+
+Run web service using docker:
+
+```bash
+cd server
+
+docker-compose up
 ```
 
 ### Local Deployments - Kind
