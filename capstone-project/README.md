@@ -26,6 +26,8 @@ To evaluate model performance and select the most effective predictive model.
 
 To develop a reusable prediction model that can support energy planning and management use cases.
 
+To deploy a web service to serve the model, using best practices
+
 ## Scope and Limitations
 
 1. Scope
@@ -48,7 +50,11 @@ The model’s performance is dependent on the quality and completeness of histor
 
 ## Model Training
 
+Model training was achieved by following the following steps:
+
 ### Data Loading
+
+The dataset for the task was sourced from Kaggle, and loaded into Jupyter notebook (`./capstone.ipynb`)using pandas library. There were 100,000 records total.
 
 ### Exploratory Data Analysis
 
