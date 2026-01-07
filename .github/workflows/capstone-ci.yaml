@@ -84,7 +84,7 @@ jobs:
 
     # Smoke Test
     - name: Run smoke tests
-      working-directory: capstone-project/server
+      working-directory: capstone-project/server/scripts
       run: |
         chmod +x smoke-test.sh
         ./smoke-test.sh

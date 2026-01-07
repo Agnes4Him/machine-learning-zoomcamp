@@ -112,6 +112,12 @@ The notebook used for the initial models training and experimentation was conver
 
 To run the pipeline without docker:
 
+* Navigate to the directory `capstone-project`, and run:
+
+```bash
+uv sync
+```
+
 * Start mlflow server with the command:
 
 ```bash
@@ -119,6 +125,13 @@ uv run mlflow server --backend-store-uri sqlite:///mlflow.db --host 0.0.0.0 --po
 --cors-allowed-origins "*" \
 --x-frame-options NONE \
 --disable-security-middleware
+```
+
+* Access MLFlow on `http://localhost:5000`
+
+* Run the train pipeline with the commands:
+
+```bash
 ```
 
 ### Web Service
