@@ -16,8 +16,11 @@ from pydantic import BaseModel, Field, ConfigDict
 
 load_dotenv()
 
-MLFLOW_URL = os.getenv("MLFLOW_URL", "http://localhost:5000")
-MODEL_NAME = os.getenv("MODEL_NAME", "Energy Consumption RandomForestRegression - Full Train")
+#MLFLOW_URL = os.getenv("MLFLOW_URL", "http://localhost:5000")
+#MODEL_NAME = os.getenv("MODEL_NAME", "Energy Consumption RandomForestRegression - Full Train")
+
+MLFLOW_URL = "http://localhost:5000"
+MODEL_NAME = "Energy Consumption RandomForestRegression - Full Train"
 
 mlflow.set_tracking_uri(MLFLOW_URL)
 
