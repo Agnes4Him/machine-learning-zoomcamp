@@ -141,7 +141,21 @@ uv run prefect deployment run 'training-flow/energy-consumption-training-pipelin
 
 To run the pipeline using docker:
 
-* 
+* Build the docker image of the pipeline as follow:
+
+```bash
+cd train_pipeline
+
+docker build -t <IMAGE_NAME>:<IMAGE_TAG> .
+```
+
+* Run MLFlow, Prefect server and training pipeline docker container
+
+```bash
+cd train_pipeline
+
+docker-compose up
+```
 
 ### Web Service
 1. Steps to run
