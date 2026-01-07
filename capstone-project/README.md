@@ -223,6 +223,17 @@ To deploy the entire stack to a local Kubernetes cluster, do the following:
 kind create cluster --name ml --config kubernetes/local/kind/kind-config.yaml
 ```
 
+
+![Alt text](./images/kind-create.png)
+
+======================================
+
+
+![Alt text](./images/get-nodes.png)
+
+======================================
+
+
 * Apply the Kubernetes files in `./kubernetes/local` in the order mlflow >> prefect >> train-pipeline >> server
 
 ```bash
@@ -245,10 +256,83 @@ kubectl apply -f server/service.yaml
 kubectl apply -f server/hpa.yaml
 ```
 
+========================================
+
+![Alt text](./images/get-deployment2.png)
+
+========================================
+
+![Alt text](./images/get-hpa.png)
+
+
+=========================================
+
+
+![API UI](./images/api-ui.png)
+
+========================================
+
+![MLFlow](./images/experiments.png)
+
+=========================================
+
+![Alt text](./images/test-predict.png)
+
+=========================================
+
+![Alt text](./images/predict-result.png)
+
+=========================================
+
+
+### CI Pipeline
+
+THE CI pipeline (GitHUb Actions) get triggered when a merge to `main` branch occurs.
+
+The pipeline runs the following steps:
+
+- Unit testing
+
+- Dependency check with Safety
+
+- Source Code Analysis with SonarQube
+
+- Quality Gate with SonarQube
+
+- Docker Build
+
+- Image scanning with Trivy
+
+- Docker push
+
+- Update Kuberenetes manifest files
+
+### GitOps
+
+GitOps is achieved by integrating `ArgoCD`, which is deployed to the same Kubernetes cluster that runs the web API.
+
+ArgoCD picks up changes that occur to the Kubernetes manifest files into the cluster.
+
+To implement:
+
+* Install ArgoCD to cluster
+
+```bash
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl get pods -n argocd
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443             ## To access the ArgoCD UI
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo               ## Retrieve password
+```
+
+* Visit ArgoCD ui on `localhost:8080`, create an App and connect it with your GitHub repository
+
 ### Cloud Deployments - EKS
 1. Steps to deploy and run
-
-### CI/CD Pipeline - GitHub Actions
 
 ### Monitoring and Observability
 
