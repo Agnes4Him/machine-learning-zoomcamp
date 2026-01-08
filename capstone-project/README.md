@@ -307,6 +307,58 @@ The pipeline runs the following steps:
 
 - Update Kuberenetes manifest files
 
+SonarQube scanning and quality gate checks were achieved by setting up a SonarQube server on EC2 instance, and using docker to run the service.
+
+The infrastructures for this were set up using `Terraform`, and the configuartions are in `./infrastructures` directory.
+
+To run:
+
+```bash
+cd infrastructures
+
+terraform init
+
+terraform plan
+
+terraform apply --auto-approve
+```
+
+First create an SSH key pair on AWS and reference this in the terraform congiuration to enable SSH access.
+
+Copy the EC2 instance's public IP address and access the instance by running:
+
+```bash
+ssh -i <SSH_PRIVATE_KEY_PATH> ubuntu@<IP_ADDRESS>
+```
+
+Run the following to get SonarQube up:
+
+```bash
+sudo apt install docker.io
+
+sudo usermod -aG docker $USER
+
+newgrp docker 
+
+docker run --name sonarqube -p 9000:9000 -d sonarqube:10.6-community
+```
+
+Visit <IP_ADDRESS>:9000 to view the SonarQube UI.
+
+Provide username - `admin`, password - `admin`, and change the password.
+
+Navigate to your profile >> My Account >> Security, and generate a token for CI access. Copy the token.
+
+On your GitHub repository, navigate to settings >> Secrets and Variables >> Actions >> Repository Secrets, and provide the following:
+
+- DOCKERHUB_TOKEN : DockerHub password
+
+- DOCKERHUB_USERNAME : DockerHub username
+
+- SONAR_HOST_URL : http://<SONARQUBE_SERVER_IP>:9000
+
+- SONAR_TOKEN : The SonarQube token
+
 ### GitOps
 
 GitOps is achieved by integrating `ArgoCD`, which is deployed to the same Kubernetes cluster that runs the web API.
