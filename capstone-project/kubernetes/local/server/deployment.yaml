@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: energy-prediction-server
-          image: agnes4im/energy-prediction-server:52e6a90982d55a2ba52000139327ddaacd13410d
+          image: agnes4im/energy-prediction-server:770ba01e67255db9734556836e245966913c0205
           env:
             - name: MLFLOW_URL
               value: "http://mlflow:5000"
