@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: mlflow
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: mlflow
   ports:

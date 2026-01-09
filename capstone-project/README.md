@@ -384,9 +384,134 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 * Visit ArgoCD ui on `localhost:8080`, create an App and connect it with your GitHub repository
 
 ### Cloud Deployments - EKS
-1. Steps to deploy and run
+To deploy this project stack - MLFlow, Prefect Server, Training Pipeline and Model serving web API to the cloud, I leveraged Amazon EKS.
 
-### Monitoring and Observability
+The following steps have been applied:
+
+* Create a cluster without any worker node using `eksctl`. Note `eksctl` and the `AWS CLI` need to be installed first.
+
+```bash
+eksctl create cluster --name=ml-capstone \
+                      --region=us-east-1 \
+                      --zones=us-east-1a,us-east-1b \
+                      --without-nodegroup
+```
+
+* Attach an OIDC provider
+
+```bash
+eksctl utils associate-iam-oidc-provider \
+    --region us-east-1 \
+    --cluster ml-capstone \
+    --approve
+```
+
+* Attach a node group (worker node):
+
+```bash
+eksctl create nodegroup --cluster=ml-capstone \
+                        --region=us-east-1 \
+                        --name=ml-capstone-ng-private \
+                        --node-type=t3.medium \
+                        --nodes-min=1 \
+                        --nodes-max=1 \
+                        --node-volume-size=20 \
+                        --managed \
+                        --asg-access \
+                        --external-dns-access \
+                        --full-ecr-access \
+                        --appmesh-access \
+                        --alb-ingress-access \
+                        --node-private-networking
+```
+
+* Update local `kubeconfig` file:
+
+```bash
+aws eks update-kubeconfig --name ml-capstone
+```
+
+* Deploy the project stack
+
+```bash
+cd kubernetes/eks
+
+kubectl apply -f mlflow/deployment.yaml
+
+kubectl apply -f mlflow/service.yaml
+
+kubectl apply -f prefect/deployment.yaml
+
+kubectl apply -f prefect/service.yaml
+
+kubectl apply -f train-pipeline/deployment.yaml
+
+kubectl apply -f server/deployment.yaml
+
+kubectl apply -f server/service.yaml
+
+kubectl apply -f server/hpa.yaml
+```
+
+* Fetch the loadbalancer DNS name from AWS console, and visit `<LOADBALANCER_DNS>:8000` to see the web API UI
+
+* Integrate `Kubernetes Ingress Controller` for proper routing
+############################################################
+
+* Install ArgoCD for GitOps
+
+```bash
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl get pods -n argocd
+
+#kubectl port-forward svc/argocd-server -n argocd --address 0.0.0.0 8080:443             ## To access the ArgoCD UI
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo               ## Retrieve password
+```
+
+
+### Monitoring with Prometheus/ Grafana
+For monitoring of the cluster, `Prometheus` and `Grafana` will be used.
+
+* Install kube-prometheus-stack
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+
+* Create a new namespace
+
+```bash
+kubectl create ns monitoring
+```
+
+* Install the monitoring stack
+
+```bash
+cd kubernetes/eks/monitoring
+
+helm install monitoring prometheus-community/kube-prometheus-stack \
+-n monitoring \
+-f ./custom_kube_prometheus_stack.yml
+
+kubectl get all -n monitoring
+```
+
+* Access Prometheus, Grafana and AlertManager UIs
+
+```bash
+kubectl port-forward service/prometheus-operated -n monitoring --address 0.0.0.0 9090:9090
+
+kubectl port-forward service/monitoring-grafana -n monitoring --address 0.0.0.0 8080:80
+
+kubectl port-forward service/alertmanager-operated -n monitoring --address 0.0.0.0 9093:9093
+```
+
+### Logging with EFK
 
 ### Future Improvements
 
