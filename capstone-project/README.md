@@ -135,7 +135,7 @@ Also run the API using docker:
 ```bash
 cd server
 
-docker build -t 
+docker build -t <IMAGE_NAME> .
 ```
 
 * Start mlflow server with the command:
