@@ -496,7 +496,7 @@ cd kubernetes/eks/monitoring
 
 helm install monitoring prometheus-community/kube-prometheus-stack \
 -n monitoring \
--f ./custom_kube_prometheus_stack.yml
+-f ./kubernetes/eks/monitoring/custom_kube_prometheus_stack.yml
 
 kubectl get all -n monitoring
 ```
@@ -512,6 +512,67 @@ kubectl port-forward service/alertmanager-operated -n monitoring --address 0.0.0
 ```
 
 ### Logging with EFK
+
+* Create IAM Role for Service Account
+
+```bash
+eksctl create iamserviceaccount \
+    --name ebs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster ml-capstone \
+    --role-name AmazonEKS_EBS_CSI_DriverRole \
+    --role-only \
+    --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+    --approve
+```
+
+* Retrieve IAM Role ARN
+
+```bash
+ARN=$(aws iam get-role --role-name AmazonEKS_EBS_CSI_DriverRole --query 'Role.Arn' --output text)
+```
+
+* Deploy EBS CSI Driver
+
+```bash
+eksctl create addon --cluster ml-capstone --name aws-ebs-csi-driver --version latest \
+    --service-account-role-arn $ARN --force
+```
+
+* Install Elastisearch on the cluster
+
+```bash
+helm repo add elastic https://helm.elastic.co
+
+helm install elasticsearch \
+ --set replicas=1 \
+ --set volumeClaimTemplate.storageClassName=gp2 \
+ --set persistence.labels.enabled=true elastic/elasticsearch -n logging
+```
+
+* Retrieve Elasticsearch Credentials
+
+```bash
+kubectl get secrets --namespace=logging elasticsearch-master-credentials -ojsonpath='{.data.username}' | base64 -d
+
+kubectl get secrets --namespace=logging elasticsearch-master-credentials -ojsonpath='{.data.password}' | base64 -d
+```
+
+* Install Kibana
+
+```bash
+helm install kibana --set service.type=LoadBalancer elastic/kibana -n logging               # Service option is ClusterIP for port-forwarding and use of ingress
+```
+
+* Install Fluentbit with Custom Values/Configurations         ## Update the `HTTP_Passwd` in the values file to that of Elastisearch
+
+```bash
+helm repo add fluent https://fluent.github.io/helm-charts
+
+helm install fluent-bit fluent/fluent-bit -f kubernetes/eks/monitoring/logging/fluentbit-values.yaml -n logging
+```
+
+### K8s Routing with Traefik + Gateway API
 
 ### Future Improvements
 
